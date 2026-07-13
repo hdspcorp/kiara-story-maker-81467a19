@@ -22,9 +22,10 @@ export function PrereqsAccordion({
   return (
     <section
       aria-labelledby="prereqs-title"
-      className="relative overflow-hidden rounded-[2rem] border border-emerald-200/80 bg-white p-6 shadow-[0_24px_80px_rgba(15,118,110,0.12)]"
+      className="relative overflow-hidden rounded-[2rem] border border-emerald-200/90 bg-white p-6 shadow-[0_28px_90px_rgba(15,118,110,0.16)] ring-1 ring-emerald-100/70"
     >
-      <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-primary via-emerald-300 to-cyan-300" />
+      <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-primary via-emerald-300 to-cyan-300" />
+      <div className="pointer-events-none absolute -right-24 -top-24 h-56 w-56 rounded-full bg-primary/10 blur-3xl" />
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-primary ring-1 ring-primary/15">
@@ -32,14 +33,14 @@ export function PrereqsAccordion({
           </span>
           <h2
             id="prereqs-title"
-            className="mt-3 text-2xl font-extrabold tracking-tight text-slate-950"
+            className="mt-3 text-3xl font-extrabold tracking-tight text-slate-950"
           >
             {title}
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">{lead}</p>
         </div>
       </div>
-      <ul className="mt-6 grid gap-3">
+      <ul className="mt-7 grid gap-4">
         {items.map((it) => {
           const isOpen = open === it.id;
           return (
@@ -52,12 +53,12 @@ export function PrereqsAccordion({
               }`}
             >
               <button
-                className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left"
+                className="flex w-full items-center justify-between gap-3 px-5 py-5 text-left"
                 onClick={() => setOpen(isOpen ? null : it.id)}
                 aria-expanded={isOpen}
               >
                 <span className="flex items-center gap-3 text-sm font-extrabold text-slate-900">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
                     <FileCheck2 className="h-5 w-5" />
                   </span>
                   {it.title}
@@ -68,7 +69,7 @@ export function PrereqsAccordion({
                 />
               </button>
               {isOpen && (
-                <div className="space-y-2 px-4 pb-5 pl-16 text-sm leading-6 text-muted-foreground">
+                <div className="space-y-2 px-5 pb-6 pl-20 text-sm leading-7 text-muted-foreground">
                   {formatBody(it.body).map((part, index) =>
                     part.checked ? (
                       <p key={index} className="flex gap-2 text-slate-700">
