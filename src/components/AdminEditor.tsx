@@ -397,58 +397,99 @@ function TreeEditor({
                     </div>
                     <div className="space-y-2 p-2">
                       {vids.map((v, vi) => (
-                        <div
-                          key={v.id}
-                          className="grid gap-2 rounded border p-2 md:grid-cols-[1fr_1fr_auto]"
-                        >
-                          <input
-                            value={v.title}
-                            placeholder="Título do vídeo"
-                            onChange={(e) =>
-                              updateVideo(g.id, m.id, v.id, { title: e.target.value }, update)
-                            }
-                            className="rounded border bg-background px-2 py-1 text-sm"
-                          />
-                          <input
-                            value={v.url}
-                            placeholder="URL do YouTube"
-                            onChange={(e) =>
-                              updateVideo(g.id, m.id, v.id, { url: e.target.value }, update)
-                            }
-                            className={`rounded border bg-background px-2 py-1 text-sm ${v.url && !ytIdFromUrl(v.url) ? "border-destructive" : ""}`}
-                          />
-                          <div className="flex items-center gap-1">
-                            <OrderCtl
-                              first={vi === 0}
-                              last={vi === vids.length - 1}
-                              onUp={() => reorderVideo(g.id, m.id, v.id, "up", draft, update)}
-                              onDown={() => reorderVideo(g.id, m.id, v.id, "down", draft, update)}
-                            />
-                            <button
-                              className="text-xs text-destructive hover:underline"
-                              onClick={() =>
-                                update((c) => ({
-                                  ...c,
-                                  groups: c.groups.map((gg) =>
-                                    gg.id === g.id
-                                      ? {
-                                          ...gg,
-                                          menus: gg.menus.map((mm) =>
-                                            mm.id === m.id
-                                              ? {
-                                                  ...mm,
-                                                  videos: mm.videos.filter((vv) => vv.id !== v.id),
-                                                }
-                                              : mm,
-                                          ),
-                                        }
-                                      : gg,
-                                  ),
-                                }))
+                        <div key={v.id} className="grid gap-2 rounded border p-3">
+                          <div className="grid gap-2 md:grid-cols-[1fr_1fr_auto]">
+                            <input
+                              value={v.title}
+                              placeholder="Título do vídeo"
+                              onChange={(e) =>
+                                updateVideo(g.id, m.id, v.id, { title: e.target.value }, update)
                               }
-                            >
-                              Excluir
-                            </button>
+                              className="rounded border bg-background px-2 py-1 text-sm"
+                            />
+                            <input
+                              value={v.url}
+                              placeholder="URL do YouTube (opcional para conteúdo a produzir)"
+                              onChange={(e) =>
+                                updateVideo(g.id, m.id, v.id, { url: e.target.value }, update)
+                              }
+                              className={`rounded border bg-background px-2 py-1 text-sm ${v.url && !ytIdFromUrl(v.url) ? "border-destructive" : ""}`}
+                            />
+                            <div className="flex items-center gap-1">
+                              <OrderCtl
+                                first={vi === 0}
+                                last={vi === vids.length - 1}
+                                onUp={() => reorderVideo(g.id, m.id, v.id, "up", draft, update)}
+                                onDown={() => reorderVideo(g.id, m.id, v.id, "down", draft, update)}
+                              />
+                              <button
+                                className="text-xs text-destructive hover:underline"
+                                onClick={() =>
+                                  update((c) => ({
+                                    ...c,
+                                    groups: c.groups.map((gg) =>
+                                      gg.id === g.id
+                                        ? {
+                                            ...gg,
+                                            menus: gg.menus.map((mm) =>
+                                              mm.id === m.id
+                                                ? {
+                                                    ...mm,
+                                                    videos: mm.videos.filter(
+                                                      (vv) => vv.id !== v.id,
+                                                    ),
+                                                  }
+                                                : mm,
+                                            ),
+                                          }
+                                        : gg,
+                                    ),
+                                  }))
+                                }
+                              >
+                                Excluir
+                              </button>
+                            </div>
+                          </div>
+                          <div className="grid gap-2 md:grid-cols-[160px_1fr_auto]">
+                            <input
+                              value={v.duration}
+                              placeholder="Duração/status"
+                              onChange={(e) =>
+                                updateVideo(g.id, m.id, v.id, { duration: e.target.value }, update)
+                              }
+                              className="rounded border bg-background px-2 py-1 text-sm"
+                            />
+                            <input
+                              value={v.description}
+                              placeholder="Descrição"
+                              onChange={(e) =>
+                                updateVideo(
+                                  g.id,
+                                  m.id,
+                                  v.id,
+                                  { description: e.target.value },
+                                  update,
+                                )
+                              }
+                              className="rounded border bg-background px-2 py-1 text-sm"
+                            />
+                            <label className="flex items-center gap-2 rounded border px-2 py-1 text-xs text-muted-foreground">
+                              <input
+                                type="checkbox"
+                                checked={v.required}
+                                onChange={(e) =>
+                                  updateVideo(
+                                    g.id,
+                                    m.id,
+                                    v.id,
+                                    { required: e.target.checked },
+                                    update,
+                                  )
+                                }
+                              />
+                              Obrigatório
+                            </label>
                           </div>
                         </div>
                       ))}

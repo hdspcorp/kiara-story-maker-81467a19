@@ -123,7 +123,7 @@ export const adminPublish = createServerFn({ method: "POST" })
     for (const g of draft.groups ?? [])
       for (const m of g.menus ?? [])
         for (const v of m.videos ?? []) {
-          if (!v.url || !ytIdFromUrl(v.url))
+          if (v.url?.trim() && !ytIdFromUrl(v.url))
             errors.push(`Link inválido no vídeo "${v.title || v.id}".`);
           if (!v.title?.trim()) errors.push(`Vídeo sem título (id ${v.id}).`);
         }
